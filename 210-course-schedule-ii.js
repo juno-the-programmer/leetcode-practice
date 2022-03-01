@@ -4,8 +4,6 @@ There are a total of numCourses courses you have to take, labeled from 0 to numC
 For example, the pair [0, 1], indicates that to take course 0 you have to first take course 1.
 Return the ordering of courses you should take to finish all courses. If there are many valid answers, return any of them. If it is impossible to finish all courses, return an empty array.
 
- 
-
 Example 1:
 Input: numCourses = 2, prerequisites = [[1,0]]
 Output: [0,1]
@@ -26,57 +24,58 @@ Output: [0]
  * @param {number[][]} prerequisites
  * @return {number[]}
  */
-var findOrder = function (numCourses, prerequisites) {
-  // build graph
-  const graph = new Map();
-  const inDegree = new Array(numCourses).fill(0);
+var findOrder = function(numCourses, prerequisites) {
 
-  for (let course of prerequisites) {
-    const src = course[1];
-    const dest = course[0];
-
-    graph.set(src, graph.get(src) ? [...graph.get(src), dest] : [dest]);
-    inDegree[dest] = inDegree[dest] + 1;
-  }
-
-  let index = 0;
-  const queue = [];
-  const order = [];
-
-  for (let node of inDegree) {
-    if (node === 0) {
-      queue.push(node);
+    //build graph
+    const graph = new Map();
+    const inDegree = new Array(numCourses).fill(0);
+    
+    for (let course of prerequisites) {
+        const dest = course[0];
+        const src = course[1];
+        
+        graph.set(src, graph.get(src) ? [...graph.get(src), dest] : [dest]);   
+        inDegree[dest] += 1
     }
-  }
-
-  while (queue.length > 0) {
-    const current = queue.shift();
-    order[index++] = current;
-    if (graph.has(current)) {
-      for (let n of graph.get(current)) {
-        inDegree[n] = inDegree[n] - 1;
-        if (inDegree[n] === 0) {
-          queue.push(n);
+    
+    const queue = [];
+    const order = [];
+    const n = graph.size;
+    
+    // push to queue for 0 in degree
+    for(let i = 0; i < numCourses; i++) {
+        if (inDegree[i] === 0) {
+            queue.push(i);
         }
-      }
     }
-  }
-
-  if (index !== numCourses) {
+    
+    let index = 0;
+    
+    while(queue.length > 0) {
+        const current = queue.shift();
+        order[index++] = current;
+        if(graph.has(current)) {
+            for (let t of graph.get(current)) {
+                inDegree[t] = inDegree[t] - 1
+                if(inDegree[t] === 0) {
+                    queue.push(t);
+                }
+            }
+        }
+    }
+    
+    if (index == numCourses) {
+        return order;
+    }
+    
     return [];
-  }
-
-  return order;
+    
+    
 };
+console.log(findOrder(4, [[1,0],[2,0],[3,1],[3,2]]))
+
+// Input: numCourses = 4, prerequisites = [[1,0],[2,0],[3,1],[3,2]]
+// Output: [0,2,1,3] or [0,1,2,3]
 
 // Input: numCourses = 2, prerequisites = [[1,0]]
-// Input: numCourses = 4, prerequisites = [[1,0],[2,0],[3,1],[3,2]]
-// Input: numCourses = 1, prerequisites = []
-const result = findOrder(4, [
-  [1, 0],
-  [2, 0],
-  [3, 1],
-  [3, 2],
-]);
-
-console.log(result);
+// Output: [0,1]
