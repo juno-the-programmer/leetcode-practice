@@ -49,16 +49,21 @@ function ListNode(val) {
  */
 // Approach 1: Hash Set
 var getIntersectionNode = function (headA, headB) {
-  console.log(headA);
-  console.log(headA);
   const nodesInB = new Map();
 
+  while (headB != null) {
+    nodesInB.set(headB);
+    headB = headB.next;
+  }
+
   while (headA != null) {
-    nodesInB.set(headA);
+    if (nodesInB.has(headA)) {
+      return headA;
+    }
     headA = headA.next;
   }
 
-  console.log(nodesInB);
+  return null;
 };
 
 // Approach 2: Two pointers
