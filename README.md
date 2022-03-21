@@ -1,7 +1,5 @@
 Logorithm
 Graph Traversal
-- DFS
-- BFS
 Binary Serach
 Sliding Window
 Recursion
