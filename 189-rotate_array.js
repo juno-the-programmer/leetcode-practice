@@ -14,7 +14,11 @@
  * @param {number} k
  * @return {void} Do not return anything, modify nums in-place instead.
  */
-
+/*
+Approach: Using Reverse
+Time complexity: O(n) . n elements are reversed a total of three times.
+Space complexity: O(1) . No extra space is used
+*/
 const revNums = (nums, start, end) => {
   while (start < end) {
     [nums[start], nums[end]] = [nums[end], nums[start]];
