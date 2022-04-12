@@ -26,31 +26,26 @@ Output: 0
  * @param {string} s
  * @return {number}
  */
-var lengthOfLongestSubstring = function(s) {
-    
-    var chars = [];
-    let left = 0;
-    let right = 0;
-    
-    let res = 0;
-    
-    while (right < s.length) {
-        let r = s[right];
-        
-        let index = chars[r];
-        if (index != null && index >= left && index < right) {
-            left = index + 1;
-        }
-        
-        res = Math.max(res, right - left + 1);
-        
-        chars[r] = right;
-        right++;        
+var lengthOfLongestSubstring = function (s) {
+  let i = 0;
+  let j = 0;
+  let max = 0;
+
+  const map = new Map();
+
+  while (i < s.length) {
+    let c = s[i];
+
+    while (map.has(c)) {
+      map.delete(s[j]);
+      ++j;
     }
-    
-    return res;
-    
-    
+    map.set(c);
+    max = Math.max(max, i - j + 1);
+    ++i;
+  }
+
+  return max;
 };
 
-console.log(lengthOfLongestSubstring(""));
+console.log(lengthOfLongestSubstring("bbbbb"));
