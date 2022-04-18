@@ -19,15 +19,13 @@ var search = function (nums, target) {
   let right = nums.length;
 
   while (left <= right) {
-    let mid = left + (right - left) / 2; // 3
-    
-    console.log("mid:" + mid);
+    let mid = Math.floor(left + (right - left) / 2);
+
     if (nums[mid] == target) {
       return mid;
     }
 
     if (nums[mid] < target) {
-      // 5 < 9
       left = mid + 1;
     } else {
       right = mid - 1;
@@ -35,8 +33,6 @@ var search = function (nums, target) {
   }
 
   return -1;
-
-  // left = 0, right = 6, mid = (6 - 0) / 2 = 3
 };
 
 console.log(search([-1, 0, 3, 5, 9, 12], 9));
