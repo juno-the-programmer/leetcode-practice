@@ -47,7 +47,7 @@ var canCompleteCircuit = function (gas, cost) {
     currTank += gas[i] - cost[i];
     if (currTank < 0) {
       currTank = 0;
-      startStation += 1;
+      startStation = i + 1;
     }
   }
   return totalTank >= 0 ? startStation : -1;
