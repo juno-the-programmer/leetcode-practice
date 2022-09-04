@@ -22,6 +22,11 @@ Explanation: There are three ways to climb to the top.
  * @param {number} n
  * @return {number}
  */
+/*
+Approach 1: Dynamic Programming
+Time complexity : O(n). Single loop up to n.
+Space complexity : O(n). dp array of size n is used.
+*/
 var climbStairs = function (n) {
   if (n === 1) return 1;
   const table = new Array(n + 1).fill(0);
@@ -35,3 +40,44 @@ var climbStairs = function (n) {
 
   return table[n];
 };
+
+/*
+Approach 2:
+Time complexity: O(2^n) Size of recursion tree will be 2^n
+Space complexity: O(n) The depth of the recursion tree can go up to n
+
+With Memoization:
+Time complexity : O(n) Size of recursion tree can go upto n.
+Space complexity : O(n) The depth of recursion tree can go up to n.
+*/
+var climbStairs = (n) => {
+  const climbStair = (i, n, memo = {}) => {
+    if (i in memo) return memo[i];
+    if (i > n) return 0;
+    if (i === n) return 1;
+    memo[i] = climbStair(i + 1, n, memo) + climbStair(i + 2, n, memo);
+    return memo[i];
+  };
+
+  return climbStair(0, n);
+};
+
+/*
+Time complexity : O(n) Single loop upto nn is required to calculate nth fibonacci number.
+Space complexity : O(1) Constant space is used.
+*/
+const climbStairs = (n) => {
+  if (n == 1) {
+    return 1;
+  }
+  let first = 1;
+  let second = 2;
+  for (let i = 3; i <= n; i++) {
+    let third = first + second;
+    first = second;
+    second = third;
+  }
+  return second;
+};
+
+console.log(climbStairs(3));
